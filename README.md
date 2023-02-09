@@ -2,15 +2,16 @@
 
 This is the repo for three course track at nicar_2023, taught by Ryann Grochowski Jones (R1), Olga Pierce (R2) and Sean Mussenden (R3)
 
-### packages needed
-library(tidyverse)
-library(rvest)
-library(janitor)
-library(readxl)
-library(googlesheets4)
-library(babynames)
-library(lubridate)
-library(scales)
+### Packages needed for sessions
+
+* library(tidyverse)
+* library(rvest)
+* library(janitor)
+* library(readxl)
+* library(googlesheets4)
+* library(babynames)
+* library(lubridate)
+* library(scales)
 
 ### Data that may be used
 * Social Security baby names data from babynames package
