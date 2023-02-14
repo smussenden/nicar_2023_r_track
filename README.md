@@ -16,4 +16,4 @@ This is the repo for three course track at nicar_2023, taught by Ryann Grochowsk
 ### Data that may be used
 * Social Security baby names data from babynames package
 * [MLB data](https://github.com/ireapps/teaching-guide-R-101/blob/main/Intro-to-R/data/MLB_2021.csv) from IRE repo
-* Shootings data from [Gun Violence Archive](https://www.gunviolencearchive.org/)
+* Shootings data from [Gun Violence Archive](https://github.com/smussenden/nicar_2023_r_track/blob/main/tenn_gva.csv)
