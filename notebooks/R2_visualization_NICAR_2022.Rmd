@@ -22,9 +22,9 @@ The package ggplot2 allows us to create a number of visualizations with tremendo
 
 ### ggplot examples
 
-![](ggplot_example.png)
-![](ggplot example 2.png)
-![](ggplot_example_3.png)
+![](images/ggplot_example.png)
+![](images/ggplot example 2.png)
+![](images/ggplot_example_3.png)
 
 ### Making a bar chart
 
