@@ -90,5 +90,5 @@ babynames_data %>% group_by(year) %>% summarise(unique_names = n()) %>% arrange(
 ```
 *Your turn!* Taking all that you know about piping and functions so far, can you find the name given to the most female babies across all years?  
 ```{r}
-babynames_data %>% filter(sex=="F") %>% group_by(name) %>% summarise(total_names_given = sum(n)) %>% arrange(desc(total_names_given))
+
 ```
