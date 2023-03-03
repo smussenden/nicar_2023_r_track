@@ -1,0 +1,77 @@
+---
+title: "NICAR 2023: R/RStudio 101"
+output: html_document
+---
+# NICAR 2023: Intro to R and RStudio
+## Saturday, March 4, 9 a.m.
+### Ryann Grochowski Jones
+
+*In this hour-long session, we'll explore how to sort, filter and group by using R in RStudio. But first, let's introduce you to the basics of R and RStudio. This notebook is adapted from the "R 101" tutorial designed by the folks at IRE-NICAR.*
+
+### Part One: Getting familiar with RStudio
+RStudio is your dashboard for writing R scripts. Script files will show up in the upper-left quadrant of RStudio. 
+
+The upper-right quadrant has several tabs, the first of which is __environment__: if you store any information in variables (such as a table of data), they will show up there. 
+
+The lower-right quadrant also has several tabs, the first of which is Files: it shows what files exist in your current working directory.
+
+In the lower-left, you'll see the __Console__. This will reflect all the R code you run, but we don't do much with it when we're working in R Notebook files. 
+
+We encourage the use of __Notebook__ files (.Rmd), which enable you to both write comments (like what I'm writing here) and to write code, in what we call a __code chunk__:
+
+```{r}
+x <- "Hello, World!"
+print(x)
+```
+
+You create a code chunk by typing `cmd+option+i` and you write your `code` in between the first and last lines of the code chunk. All your comments, questions, thoughts, and notes are written outside of the code chunks. The comments outside of code chunks use markdown for formatting. If you don't know markdown, don't worry about it for now.
+
+
+### Part Two: Terminology
+
+Some important terminology has come up already: 
+
+- __Notebook__: a certain type of R script that allows us to write whatever text we want, including `code` inside of code chunks
+- __code chunk__: created by typing `cmd+option+i`, type your code inside code chunks.
+- __environment__: this is basically your workspace for every R session. It's empty until you start storing information in variables.
+- __variable__: a variable is a container that holds something. For example, the following code stores the word "spaghetti" into a variable named "x", using  the assignment operator `<-`, and then prints the contents of that variable to the console below the code chunk:
+```{r}
+x <- "spaghetti"
+print(x)
+```
+
+In the example above, "spaghetti" is a string of text, or characters. You can also store numbers in variables (which do not require double quotes):
+```{r}
+y = 3
+```
+
+- __vector__: this is a common feature of R that you will use regularly. A vector is a series of values. Vectors can only store one type of data, for example all strings or all numbers, and are created with the `c()` __function__: 
+```{r}
+x = c("spagetti sauce", "noodles", "parmesan")
+y = c(1,2,3)
+```
+
+- __function__: these are the backbones of all analysis, in any program (from spreadsheets to database managers to programming languages). Every function has a particular structure and does a particular thing. The structure is: `function_name(arguments)`. For example, the `sum()` function works in R the same way it works in other programs:
+```{r}
+x = 1
+y = 2
+sum(x,y)
+```
+
+- __pipe__: a pipe does what it sounds like: it pipes information from one function to the next. It is a part of the [tidyverse](https://www.tidyverse.org/) __package__, which is the primary set of tools we use for data analysis in R. You will use the pipe a lot, and it looks like this: `%>%`. A shortcut for typing it is `cmd+shift+m`(or `ctrl+shift+m`).
+- __package__: a set of features and functions that are not a part of base R (what you initially installed), but that you can add to R to increase its functionality. You install packages once by using the `install.packages()` function. Then every time you want to use a package (such as tidyverse) in your script, you load it into your environment using the `library()` function. All the necessary packages for this class have already been installed. 
+
+### Part Three: The key to understanding programming...
+
+The key to understanding a programming language like R is to understand how __information is passed around__. For the sake of this class, let's refer to information as __data__, although it won't always be tabular. 
+Data can be stored in a variable or printed to the __console__ (which is directly below a code chunk in R Notebooks). Data stored as a variable shows up in the environment, and can be referred to later in your script. 
+
+Additionally, data can be passed (or __piped__) through functions that filter, sort, aggregate, and/or mutate it in some way. But it will always end up either printing to the console or being stored in a variable.
+
+### Part Four: Time to write some code
+
+Using the Files pane in the lower-right quadrant, click once on the filename `nicar-2023-intro-to-r-r-studio.Rmd`. It should open in the upper-left quadrant. 
+
+Some of the code is already written out. You can run it by clicking the green "play" button in the upper-right corner of a code chunk. You can also run individual lines of code in a code chunk by putting your cursor on that line and typing cmd + return (or ctrl + enter on a PC). 
+
+You will also have the chance to type your own code.
