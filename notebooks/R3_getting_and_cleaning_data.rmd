@@ -1,7 +1,7 @@
 ---
 title: "R3 | Getting and Cleaning Data"
 author: "Sean Mussenden"
-date: "3/2/2022"
+date: "3/2/20223"
 output: html_document
 ---
 
@@ -9,9 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Intro 
+## Intro 
 
-## What We're Doing
+### What We're Doing
 
 In this hourlong session, we're going to show you two things:
 
@@ -23,17 +23,18 @@ In this hourlong session, we're going to show you two things:
 * *We'll practice:* cleaning up column names, correcting erroneous values, converting data types, manipulating strings. 
 * *I'll introduce you to resources that will show you how to:* clean messy dates and more advanced string functions.
 
-## What You'll Get Out of This
+### What You'll Get Out of This
 
 * You won't leave here an expert.  
 * You will leave here understanding some basic loading and cleaning data concepts in R, a list of helpful packages, and some resources for further learning. 
 
-# Let's go
+## Let's go
 
-## Load packages
+### Load packages
 
-We'll need to load several packages for this class.  They are:
+We'll need to load several packages for this class.  
 
+They are:
 * The [babynames](https://cran.r-project.org/web/packages/babynames/index.html) package for loading social security babyname data. 
 * The [Tidvyerse](https://www.tidyverse.org/) collection of packages. We'll be making extensive use of the readr, dplyr and stringr packages,which all load as part of the tidyverse core.  
   * [readr](https://readr.tidyverse.org/)
@@ -69,31 +70,6 @@ library(lubridate)
 
 
 ```
-
-
-
-
-
-
-1. How to load flat data (tables or spreadsheets) into R in several different ways.
-  * Read in data that comes preloaded as part of a package with the `babynames` package.
-  * Read in a CSV file on your local machine with the `readr` package.
-  * Download a CSV file located somewhere on the Internet with the `readr` package.
-  * Read in data from an Excel file stored locally with the `readxl` package.
-  * Read in data from a Google Sheet with the `googlesheets4` package.
-  * Read in data from an HTML table from the Internet and coerce it into an R dataframe, a basic form of web scraping with the `rvest` package.
-  
-2. Introduce you to, but not teach in detail, information about alternate data loading methods, including packages that will help you:
-  * Pull data from an SQL database with the `dbplyr` package. 
-  * Pull data from an API endpoint on the web with .
-  * Easily pull data from specific APIs (like Twitter or the U.S. Census).
-  
-3. Do some basic cleaning tasks once you've loaded data to prepare it for analysis.
-  * Bulk rename dirty column names, using the Janitor package.
-  * Convert column types, including numbers and text. 
-  * Manipulate columns containing strings to make them usable. 
-
-
 
 ### Loading preloaded data from a package
 
