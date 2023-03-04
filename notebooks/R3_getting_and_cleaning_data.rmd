@@ -1,7 +1,7 @@
 ---
 title: "R3 | Getting and Cleaning Data"
 author: "Sean Mussenden"
-date: "3/2/20223"
+date: "3/2/2023"
 output: html_document
 ---
 
@@ -21,7 +21,7 @@ In this hourlong session, we're going to show you two things:
 
 **2. Some data cleaning tricks in R!**
 * *We'll practice:* cleaning up column names, correcting erroneous values, converting data types, manipulating strings. 
-* *I'll introduce you to resources that will show you how to:* clean messy dates and more advanced string functions.
+* *I'll introduce you to resources that will show you how to:* use more advanced string functions.
 
 ### What You'll Get Out of This
 
@@ -29,6 +29,10 @@ In this hourlong session, we're going to show you two things:
 * You will leave here understanding some basic loading and cleaning data concepts in R, a list of helpful packages, and some resources for further learning. 
 
 ## Let's go
+
+### Set your working directory
+
+We'll want to set our working directory inside of the notebooks folder.  I'll show you how to do that. 
 
 ### Load packages
 
@@ -96,43 +100,103 @@ Loading data from a flat file -- like a csv -- stored on your local machine is a
 
 We're going to read in a sample of the babynames data that contains all of the names that start with "A". 
 
-Store it as an object called "babynames_a_csv" (the name doesn't matter, can be anything). The information inside of `read_csv()` is the filepath to the data, which is stored in the data > R3. 
+Store it as an object called "babynames_a_csv" (the name doesn't matter, can be anything). The information inside of `read_csv()` is the filepath to the data, which is stored in the data folder. 
 
 ```{r}
 
-babynames_a <- read_csv("data/R3/babynames_a.csv")
+babynames_a_csv <- read_csv("data/babynames_a.csv")
 
 ```
 
 #### Loading data from a flat file on the internet
 
-We can load that same csv from the internet, instead of doing it locally.  We just need to change the information inside of the `read_csv()` function to pass a URL instead of a location on our computer. The CSV is up on Github.com, here: https://raw.githubusercontent.com/walinchus/BabyNames/master/data/R3/babynames_a.csv
+We can load that same csv from the internet, instead of doing it locally.  We just need to change the information inside of the `read_csv()` function to pass a URL, instead of a location on our computer. 
+
+The CSV is up on Github.com, here: https://raw.githubusercontent.com/smussenden/nicar_2023_r_track/main/notebooks/data/babynames_a.csv
+
+Warning: this may not work if the wifi is buggy!
 
 ```{r}
-babynames_a <- read_csv("https://raw.githubusercontent.com/walinchus/BabyNames/master/data/R3/babynames_a.csv")
+babynames_a_csv_web <- read_csv("https://raw.githubusercontent.com/smussenden/nicar_2023_r_track/main/notebooks/data/babynames_a.csv")
 ```
-
 
 #### Loading data from an Excel file
 
 Another data format you'll likely see in the wild: Excel files. They're a little trickier than csvs, because they can contain multiple sheets. 
 
-We can use the `read_xlsx()` function from the `readxl` package to load data from Excel files. There's an Excel file in the data/R3 folder called babynames_excel.  It has two sheets, one with all of the "A" babynames, followed by one with all of the "B" babynames. 
+We can use the `read_xlsx()` function from the `readxl` package to load data from Excel files. 
 
-Let's load the As as a dataframe and store it as an object called babynames_a_excel.
+There's an Excel file in the data folder called babynames_excel.  It has two sheets, one with all of the "A" babynames, followed by one with all of the "B" babynames. 
 
-```{r}
-babynames_a_excel <- read_xlsx("data/R3/babynames_excel.xlsx")
-```
-
-Because "A" is the first sheet in the Excel file, the function loads the "A" sheet. But if we need to get any other sheet, like "B" we'll have to get it by adding another argument to the read_xlsx function. 
-
-Let's load B now and store it as an object called babynames_b_excel. Notice we've included the name of the sheet.
+Let's load the first sheet, the "A" babynames, as a dataframe and store it as an object called babynames_a_excel.
 
 ```{r}
-babynames_b_excel <- read_xlsx("data/R3/babynames_excel.xlsx", sheet="babynames_b")
+babynames_a_excel <- read_xlsx("data/babynames_excel.xlsx")
+```
+
+Because the "A" names sheet is the first sheet in the Excel file, the function automatically loads the "A" sheet. 
+
+But if we need to get any other sheet, like the one containing the "B" names, we'll have to get it by adding another argument to the read_xlsx function. 
+
+The sheet is called "babynames_b".
+
+How can we load Sheet B?  Let's take a look at the handy help page for the readxl package.
+
+* You can either type ?read_xlsx in the console and look at what pops up on the right. 
+* Or you can visit https://readxl.tidyverse.org/reference/read_excel.html.  
+
+Can you see how to read in a different sheet from the first?  
+
+Let's modify the read_xlsx function below to load the sheet "babynames_b".
+
+```{r}
+babynames_b_excel <- read_xlsx("data/babynames_excel.xlsx")
 
 ```
+
+#### Loading data from an HTML table
+
+On this page is an HTML table showing the top 2021 baby names. https://www.ssa.gov/oact/babynames/. Because the wifi is often buggy, I've saved an HTML file locally of this page, which we'll work with instead.  It's in the data folder.
+
+We can use the inspector in our web browser to see this.  It's composed of html tags. 
+
+Using the `rvest` package we're going to first read in the entire html page using the `read_html()` function.
+
+```{r}
+# If we were going to pull directly from the web, instead of from a local file, this is what it will the function would look 
+
+# top_2021_baby_names <- read_html("https://www.ssa.gov/oact/babynames/") 
+
+# Instead, we're gonna load a local html file to simulate the act of scraping from the web
+top_2021_baby_names <- read_html("data/html/ssa_baby_names.html")
+```
+
+Open it up in the environment window.  It's the full HTML of the page. 
+Next, we'll use `rvest` to extract the html table we want using `html_table()`
+
+```{r}
+top_2021_baby_names <- read_html("data/html/ssa_baby_names.html") %>%
+  html_table()
+
+```
+
+Open it up in the environment window. We've isolated that one html table and turned it into a dataframe, albeit one that is nested in a list.  Let's extract it from the list. 
+
+```{r}
+
+# Load html and extract table
+top_2021_baby_names <- read_html("data/html/ssa_baby_names.html") %>%
+  html_table()
+
+# Pluck out the table
+top_2021_baby_names <- top_2021_baby_names[[1]]
+
+# display it
+top_2021_baby_names
+
+```
+
+Never web scraped before? Now you have! A warning that web scraping does get more challenging from here. 
 
 #### Loading data from google sheets
 
@@ -144,7 +208,17 @@ To read in the sheet, we need to paste in the sheet ID, which is the long sting 
 
 Because the "A" sheet comes first, it automatically loads that sheet.
 
+Before we get there, though, we'll need to authenticate with Google.  Look down in the console, select an account or hit 0 to start the process of in-browser authentication.
+
 ```{r}
+gs4_auth()
+
+```
+
+Now we can read in the sheet.
+
+```{r}
+
 babynames_a_sheet <- read_sheet("1GG_RmYPGCNKbLb4x1dkQv1B9NjDBF0kQRtge9Aea4rs")
 ```
 
@@ -156,48 +230,32 @@ babynames_b_sheet <- read_sheet("1GG_RmYPGCNKbLb4x1dkQv1B9NjDBF0kQRtge9Aea4rs", 
 
 A few notes on the `googlesheets4` package.  
 
-* If you want to access a sheet that isn't public on the web, you'll have to authenticate R studio with Google first.  You can do that by running `gs4_auth()`.
-* In addition to loading data from Google Sheets, you can also WRITE data from R Studio to Google sheets.  This is such a great way to share data you've analyzed with other, less tech-savvy members of your team. More on that here: https://googlesheets4.tidyverse.org/index.html.  
+* In addition to loading data from Google Sheets, you can also WRITE data from R Studio to Google Sheets.  This is such a great way to share data you've analyzed with other, less tech-savvy members of your team. More on that here: https://googlesheets4.tidyverse.org/index.html.  
 
-#### Loading data from an HTML table
+### Your Turn Option 1
 
-On this page is an HTML table showing the top 2020 baby names. https://www.ssa.gov/oact/babynames/
+This page https://www.ssa.gov/oact/babynames/state/top5_2021.html, which I've also stored locally, contains tables of the top 5 birth names for 2021 by state, one for male and one for female.  
 
-We can use the inspector in our web browser to see this.  It's composed of html tags. Using the `rvest` package we're going to first read in the entire html page using the `read_html()` function.
-
-```{r}
-
-top_2020_baby_names <- read_html("https://www.ssa.gov/oact/babynames/") 
-
-```
-
-Open it up in the environment window.  It's the full HTML of the page.  
-
-Next, we'll use `rvest` to extract the html table we want using `html_table()`
-
-```{r}
-top_2020_baby_names <- read_html("https://www.ssa.gov/oact/babynames/") %>%
-  html_table()
-
-```
-
-Open it up in the environment window. We've isolated that one html table and turned it into a dataframe, albeit one that is nested in a list.  Let's extract it from the list. 
+Using what you just learned, I'd like you to take a stab at ingesting the html of this page, and saving each of the tables as a separate data frame.   
 
 ```{r}
 
-# Load html and extract table
-top_2020_baby_names <- read_html("https://www.ssa.gov/oact/babynames/") %>%
-  html_table()
-
-# Pluck out the table
-top_2020_baby_names <- top_2020_baby_names[[1]]
-
-# display it
-top_2020_baby_names
+# local path to the data 
+# "data/html/baby_names_2021_state.html"
 
 ```
 
-Never web scraped before? Now you have! A warning that web scraping does get more challenging from here. 
+### Your Turn Option 2
+
+538 puts a lot of neat data sets on its' GitHub organization page.  Here's the page to a dataset about the Avengers, from Marvel Comics:  
+
+https://github.com/fivethirtyeight/data/blob/master/avengers/avengers.csv
+
+Read this data into your environment and store it as an object called `avengers`. 
+
+```{r}
+
+```
 
 #### Other ways of getting data
 
@@ -205,9 +263,7 @@ There are lots of other ways to bring data into R.  We don't have to delve into 
 
 * Pull data from an SQL database with the `dbplyr` package. [dbplyr](https://dbplyr.tidyverse.org/)
 
-* Get data from an API endpoint - You can access data available through pretty much any API, or application programming interface, by sending queries and getting back a response, using the excellent [HTTR package](https://httr.r-lib.org/).  Some examples of APIs include: 
-  * [Spotify data](https://developer.spotify.com/documentation/web-api/) 
-  * [Twitter's API](https://developer.twitter.com/en/docs)
+* Get data from an API endpoint - You can access data available through pretty much any API, or application programming interface, by sending queries and getting back a response, using the excellent [HTTR package](https://httr.r-lib.org/).  An example of an API: [Spotify data](https://developer.spotify.com/documentation/web-api/) 
 
 * Get data from packages the R community has built to load and work with specific kinds of data, including some nice helper functions. If the dataset you want to use is popular, there's a great change someone has built an R package for it! Some great examples:
   *[Tidycensus](https://walkerke.github.io/tidycensus/index.html): for loading and working with all manner of U.S. Census Data.
@@ -225,11 +281,11 @@ rm(list=ls())
 
 Data cleaning is a critical step in preparing data for analysis.  Everyone wants to jump right to the fun stuff -- me too! -- but failing to account for flaws in the data can lead to errors, which can lead to corrections.  
 
-To start, we're going to load a dataframe with info on year-by-year totals for the most popular female baby names from 2008 to 2017. I've intentionlly made this very ugly. 
+To start, we're going to load a dataframe with info on year-by-year totals for the most popular female baby names from 2008 to 2017. I've intentionally made this very ugly. Someone needs to change this dataframe's diaper!
 
 ```{r}
 
-babynames_dirty <- read_rds("data/R3/babynames_dirty.rds")
+babynames_dirty <- read_rds("data/babynames_dirty.rds")
 
 ```
 
@@ -302,10 +358,24 @@ babynames_clean <- babynames_dirty %>%
 
 That appears to have removed the duplicate "Amelia" rows, but not the duplicate "Emma" rows.  
 
-Why?  Because, if we examine the Emma row closely, we'll see that one has extra whitespace on both sides of the name, and the other doesn't. That means the rows aren't EXACTLY equal.
+Why? Before scrolling down, see if you can figure it out. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+If we examine the Emma row closely, we'll see that one has extra whitespace on both sides of the name, and the other doesn't. That means the rows aren't EXACTLY equal.
 
 We can fix that with our first of many string functions, from the `stringr` package, which has lots of helpful functions for cleaning character strings. The function we'll use is called `str_trim()` and it's good at trimming extra whitespace. 
-
 
 ```{r}
 
@@ -336,6 +406,10 @@ babynames_clean <- babynames_dirty %>%
 
 ```
 
+### Before we move on from names
+Before we move on, let's suppose we wanted to make all the names lowercase or uppercase instead.  What do we think a function to do that might be called?  If you start typing str_to in the console, you might get a clue. 
+
+### Fixing Abigail
 The next issue will be a bit more challenging, fixing Abigail.  Her name has extra stuff -- "First Name: Abigail" -- that the others don't have.  We can remove that extra stuff with `str_remove()`. 
 
 ```{r}
@@ -367,6 +441,10 @@ babynames_clean <- babynames_dirty %>%
   mutate(sex = str_sub(sex, start=1L, end=1L))
 
 ```
+
+### Before we move on from sex
+
+What happens if you change the start and end numbers?  How does the output change? Try it now.
 
 #### Fix 2015 column
 
