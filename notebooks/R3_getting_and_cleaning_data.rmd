@@ -16,12 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 In this hourlong session, we're going to show you two things:
 
 **1. The many ways to get data in RStudio!**
-* *We'll practice loading data from:* a built in R dataset, an R package, a local csv, an Excel file, and an html table. 
-* *I'll introduce you to resources that will show you how to:* load data from a Google Sheet, read data from a CSV on the Internet, pull data from an API (like the Census), and pull data from a database. 
+* *We'll practice loading data from:* a built in R dataset, an R package, a local csv, an Excel file, and an html table. If the wifi cooperates, we'll also show how to load from a csv on the web and read in a Google Sheet.
+* *I'll introduce you to resources that will show you how to:* pull data from an API (like the Census), and pull data from a database. 
 
 **2. Some data cleaning tricks in R!**
 * *We'll practice:* cleaning up column names, correcting erroneous values, converting data types, manipulating strings. 
-* *I'll introduce you to resources that will show you how to:* use more advanced string functions.
 
 ### What You'll Get Out of This
 
@@ -32,7 +31,7 @@ In this hourlong session, we're going to show you two things:
 
 ### Set your working directory
 
-We'll want to set our working directory inside of the notebooks folder.  I'll show you how to do that. 
+We'll want to set our working directory inside of the notebooks folder.  I'll show you how to do that in RStudio. 
 
 ### Load packages
 
@@ -228,9 +227,7 @@ If we want to load any other sheet, we need to tell it which one to load.
 babynames_b_sheet <- read_sheet("1GG_RmYPGCNKbLb4x1dkQv1B9NjDBF0kQRtge9Aea4rs", sheet = "babynames_b")
 ```
 
-A few notes on the `googlesheets4` package.  
-
-* In addition to loading data from Google Sheets, you can also WRITE data from R Studio to Google Sheets.  This is such a great way to share data you've analyzed with other, less tech-savvy members of your team. More on that here: https://googlesheets4.tidyverse.org/index.html.  
+In addition to loading data from Google Sheets, you can also WRITE data from R Studio to Google Sheets.  This is such a great way to share data you've analyzed with other, less tech-savvy members of your team. More on that here: https://googlesheets4.tidyverse.org/index.html.  
 
 ### Your Turn Option 1
 
@@ -281,7 +278,9 @@ rm(list=ls())
 
 Data cleaning is a critical step in preparing data for analysis.  Everyone wants to jump right to the fun stuff -- me too! -- but failing to account for flaws in the data can lead to errors, which can lead to corrections.  
 
-To start, we're going to load a dataframe with info on year-by-year totals for the most popular female baby names from 2008 to 2017. I've intentionally made this very ugly. Someone needs to change this dataframe's diaper!
+To start, we're going to load a dataframe with info on year-by-year totals for the most popular female baby names from 2008 to 2017. 
+
+I've intentionally made this very ugly. Keeping with our theme, someone needs to change this dataframe's diaper!
 
 ```{r}
 
@@ -358,7 +357,17 @@ babynames_clean <- babynames_dirty %>%
 
 That appears to have removed the duplicate "Amelia" rows, but not the duplicate "Emma" rows.  
 
-Why? Before scrolling down, see if you can figure it out. 
+Why? 
+
+Before scrolling down, see if you can figure it out. 
+
+
+
+
+
+
+
+
 
 
 
@@ -406,7 +415,7 @@ babynames_clean <- babynames_dirty %>%
 
 ```
 
-### Before we move on from names
+### Before we move on from names column
 Before we move on, let's suppose we wanted to make all the names lowercase or uppercase instead.  What do we think a function to do that might be called?  If you start typing str_to in the console, you might get a clue. 
 
 ### Fixing Abigail
@@ -515,6 +524,16 @@ When we glimpse the data, it's been converted to the correct datatype.
 glimpse(babynames_clean)
 ```
 
-#### Wrapping up
+#### Final Practice
+
+If there's time left over, there's a dataset called tenn_gva.csv in the data folder that you can use to practice your new data cleaning skills. 
+
+Write code to load the data, identify potential issues, then write code to fix them.
+
+```{r}
+
+
+```
+
 
 Thanks for joining.  If you get stuck in the future and need some help, I'm at smussend@umd.edu. 
